@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<style>
+    *{
+        background-color: black;
+        color: aliceblue;
+    }     
+    .container{
+        display: grid;
+        justify-content: center;
+    }
+    h1{
+        text-align: center;
+        width: 200px;
+        border: 3px solid white;
+        padding: 15px;
+        border-radius: 30px;
+    }
+    form{
+        
+        position: absolute;
+        top: 30%;
+        left:35%;
+    }
+    input{
+        border: 2px solid white;
+    }
+    .tab{
+        position: absolute;
+        top:40%;
+        left: 15%;
+    }
+    table{
+        text-align: center;
+        box-sizing: border-box;
+        box-shadow: inset;
+        width: 700px;
+    }
+h2{
+    position: absolute;
+        top:50%;
+        left: 45%;
+}
+@media (max-width: 768px) {
+        /* Adjust styles for screens up to 768px wide */
+        h1 {
+            width: 90%;
+            max-width: none;
+            padding: 5%;
+        }
+
+        form {
+            top: 20%;
+        }
+
+        .tab {
+            width: 80%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        /* Adjust styles for screens up to 480px wide */
+       h1{
+        width: max-content;
+        padding: 10px;
+       }
+       form{
+        position: absolute;
+        left: 20%;
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+       }
+       .meee   {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+       }
+       table{
+        width: 300px;
+       }
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>ToDo App</h1>
+        <form method="post">
+            {%csrf_token%}
+            <label>Task : {{ forms.Task_name }}</label>
+            <button class="meee">Sumbit</button>
+            
+        </form>
+        {% if contents %}
+        <div class="tab">
+            <table border="1">
+                <thead>
+                    <tr>
+                        
+                        <th>Tasks</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in contents %}
+                    <tr>
+                    {% if i.Task_status %}
+                    <td style="text-decoration: line-through;">{{i.Task_name}}</td>
+                    <td>Done</td>
+                    {% else %}
+                    <td>{{i.Task_name}}</td>
+                    <td>Not Done</td>
+                    
+                    {% endif %}
+                    <td><a href="{% url 'edti' i.id %}"><button >Edit</button></a></td>
+                    <td><a href="{% url 'del' i.id %}"><button>Delete</button></a></td>
+                </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <h2>No Tasks</h2>
+        {% endif %}
+    </div>
+    
+</body>
+</html>
